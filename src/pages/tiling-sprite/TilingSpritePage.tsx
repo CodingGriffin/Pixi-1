@@ -55,7 +55,7 @@ function TilingSpritePage() {
   return (
     <div className={styles["full-height"]}>
       <div className={styles["main-title"]}>
-        <h1>Tiling Sprite</h1>
+        <h1>3 - Tiling Sprite</h1>
       </div>
       <div className={styles["main-stage"]}>
         <div className={styles["stage-container"]} ref={parentRef}>

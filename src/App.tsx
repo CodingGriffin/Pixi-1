@@ -1,18 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/side-bar/SidebarComponent";
-import BasicResponsive from "./pages/basic/responsive/ResponsivePage";
-import BasicContainer from "./pages/basic/container/ContainerPage";
-import TilingSpritePage from "./pages/sprite/tiling-sprite/TilingSpritePage";
+import BasicResponsive from "./pages/responsive/ResponsivePage";
+import BasicContainer from "./pages/container/ContainerPage";
+import TilingSpritePage from "./pages/tiling-sprite/TilingSpritePage";
+import GraphicsPage from "./pages/graphics/GraphicsPage";
+import TextPage from "./pages/Text/TextPage";
 
 const items = [
   {
-    id: "1",
+    id: "0",
     title: "Basic Responsive",
     element: <BasicResponsive />,
   },
   {
-    id: "2",
+    id: "1",
     title: "Basic Container",
     element: <BasicContainer />,
   },
@@ -22,9 +24,19 @@ const items = [
   //   element: <BasicResponsive />,
   // },
   {
-    id: "4",
+    id: "3",
     title: "Tiling Sprite",
     element: <TilingSpritePage />,
+  },
+  {
+    id: "5",
+    title: "Text",
+    element: <TextPage />,
+  },
+  {
+    id: "6",
+    title: "Graphics",
+    element: <GraphicsPage />,
   },
 ];
 
