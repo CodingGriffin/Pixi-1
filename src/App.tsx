@@ -4,10 +4,11 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import "./App.css";
+import Sidebar from "./components/side-bar/SidebarComponent";
 import BasicResponsive from "./pages/basic/responsive/ResponsivePage";
 import BasicContainer from "./pages/basic/container/ContainerPage";
-import Sidebar from "./components/side-bar/SidebarComponent";
-import "./App.css";
+import TransparentBackgroundPage from "./pages/basic/transparent-background/TransparentBackgroundPage";
 
 const items = [
   {
@@ -16,6 +17,7 @@ const items = [
     children: [
       { id: "1-1", title: "Responsive", element: <BasicResponsive /> },
       { id: "1-2", title: "Container", element: <BasicContainer /> },
+      { id: "1-3", title: "Transparent Background", element: <TransparentBackgroundPage /> },
     ],
   },
   {
