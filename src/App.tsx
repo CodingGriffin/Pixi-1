@@ -1,36 +1,31 @@
 import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/side-bar/SidebarComponent";
 import BasicResponsive from "./pages/basic/responsive/ResponsivePage";
 import BasicContainer from "./pages/basic/container/ContainerPage";
-import TransparentBackgroundPage from "./pages/basic/transparent-background/TransparentBackgroundPage";
+import TilingSpritePage from "./pages/sprite/tiling-sprite/TilingSpritePage";
 
 const items = [
   {
     id: "1",
-    title: "Basic",
-    children: [
-      { id: "1-1", title: "Responsive", element: <BasicResponsive /> },
-      { id: "1-2", title: "Container", element: <BasicContainer /> },
-      { id: "1-3", title: "Transparent Background", element: <TransparentBackgroundPage /> },
-    ],
+    title: "Basic Responsive",
+    element: <BasicResponsive />,
   },
   {
     id: "2",
-    title: "Advanced",
-    children: [
-      { id: "2-1", title: "Slots" },
-      { id: "2-2", title: "Scratch Card" },
-    ],
+    title: "Basic Container",
+    element: <BasicContainer />,
   },
   {
     id: "3",
-    title: "Sprite",
+    title: "Blend Modes",
+    element: <BasicResponsive />,
+  },
+  {
+    id: "4",
+    title: "Tiling Sprite",
+    element: <TilingSpritePage />,
   },
 ];
 
@@ -47,16 +42,11 @@ function App() {
         <Sidebar items={items} onSelect={handleSelect} />
         <Routes>
           {items.map((item: any, index: number) => (
-            <Route key={`item-${index}`} path={item.title}>
-              {item.children &&
-                item.children.map((child: any, id: number) => (
-                  <Route
-                    key={`child-${index}-${id}`}
-                    path={child.title}
-                    element={child.element}
-                  />
-                ))}
-            </Route>
+            <Route
+              key={`item-${index}`}
+              path={item.title.toLowerCase()}
+              element={item.element}
+            />
           ))}
         </Routes>
       </Router>

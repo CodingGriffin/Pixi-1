@@ -30,25 +30,10 @@ const Sidebar: React.FC<SidebarProps> = ({ items, onSelect }) => {
         <div key={item.id} className={styles["sidebar-item"]}>
           <div
             className={styles["sidebar-item-title"]}
-            onClick={() => (item.children ? toggleExpand(item.id) : onSelect(item.id))}
+            onClick={() => navigate(item.title.toLowerCase())}
           >
             {item.title}
           </div>
-          {item.children && expanded[item.id] && (
-            <div className={styles["sidebar-children"]}>
-              {item.children.map((child) => (
-                <div
-                  key={child.id}
-                  className={styles["sidebar-child"]}
-                  // onClick={() => onSelect(child.id)}
-                  onClick={()=>navigate(("/"+item.title + "/" + child.title).toLowerCase())}
-
-                >
-                  {child.title}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       ))}
     </div>
