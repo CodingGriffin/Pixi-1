@@ -17,11 +17,11 @@ const items = [
     title: "Basic Container",
     element: <BasicContainer />,
   },
-  {
-    id: "3",
-    title: "Blend Modes",
-    element: <BasicResponsive />,
-  },
+  // {
+  //   id: "3",
+  //   title: "Blend Modes",
+  //   element: <BasicResponsive />,
+  // },
   {
     id: "4",
     title: "Tiling Sprite",
