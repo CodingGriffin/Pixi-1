@@ -1,28 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './SidebarComponent.module.css';
 import { useNavigate } from 'react-router-dom';
 
 interface SidebarItem {
   id: string;
   title: string;
-  children?: SidebarItem[];
 }
 
 interface SidebarProps {
   items: SidebarItem[];
-  onSelect: (id: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ items, onSelect }) => {
-  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+const Sidebar: React.FC<SidebarProps> = ({items}) => {
   const navigate = useNavigate();
-
-  const toggleExpand = (id: string) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
 
   return (
     <div className={styles["sidebar"]}>

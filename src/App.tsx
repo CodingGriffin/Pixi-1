@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/side-bar/SidebarComponent";
@@ -30,16 +29,10 @@ const items = [
 ];
 
 function App() {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-  const handleSelect = (id: string) => {
-    setSelectedItem(id);
-    console.log("Selected Item:", selectedItem);
-  };
-
   return (
     <div className="app">
       <Router>
-        <Sidebar items={items} onSelect={handleSelect} />
+        <Sidebar items={items}/>
         <Routes>
           {items.map((item: any, index: number) => (
             <Route
