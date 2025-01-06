@@ -1,8 +1,9 @@
-# React + Vite
+0 - Responsive App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Simple responsive stage + container centering for pixi/react v8-Beta21
 
-Currently, two official plugins are available:
+Note that the use of a component wapping Application and `onInit` to prevent errors when trying to draw before the
+application is initialized.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The stage automatically resizes using `resizeTo`, referencing the parent div - the square in the center is automatically
+adjusted to stay in the center of the stage as it moves, using a listener attached to the app.  
