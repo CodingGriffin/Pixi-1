@@ -6,6 +6,7 @@ import BasicContainer from "./pages/container/ContainerPage";
 import TilingSpritePage from "./pages/tiling-sprite/TilingSpritePage";
 import GraphicsPage from "./pages/graphics/GraphicsPage";
 import TextPage from "./pages/Text/TextPage";
+import DraggingPage from "./pages/dragging/DraggingPage";
 
 const items = [
   {
@@ -37,6 +38,11 @@ const items = [
     id: "6",
     title: "Graphics",
     element: <GraphicsPage />,
+  },
+  {
+    id: "7",
+    title: "Dragging",
+    element: <DraggingPage />,
   },
 ];
 
