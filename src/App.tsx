@@ -49,7 +49,7 @@ function App() {
               element={item.element}
             />
           ))}
-          <Route path="*" element={<div>404 Not Found</div>} /> {/* Fallback route */}
+          <Route path="/" element={items[0].element} /> {/* Fallback route */}
         </Routes>
       </Router>
     </div>
