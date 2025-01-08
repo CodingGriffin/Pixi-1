@@ -46,11 +46,11 @@ function App() {
           {items.map((item) => (
             <Route
               key={item.id}
-              path={item.title} // Use the path property
+              path={item.title.toLowerCase()} // Use the path property
               element={item.element}
             />
           ))}
-          <Route path="/" element={<Navigate to="/basic-responsive" replace />} /> {/* Redirect to a specific route */}
+          <Route path="/" element={<Navigate to="/basic responsive" replace />} /> {/* Redirect to a specific route */}
         </Routes>
       </Router>
     </div>
