@@ -3,7 +3,6 @@ import {
   Container,
   Sprite,
   Text,
-  // Texture,
   BLEND_MODES,
   Assets,
 } from "pixi.js";
