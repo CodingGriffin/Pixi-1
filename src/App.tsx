@@ -17,7 +17,7 @@ interface MenuItem {
   id: string;
   title: string;
   path: string; // Add a path property
-  element: JSX.Element; // Use JSX.Element for better typing
+  element: any; // Use JSX.Element for better typing
 }
 
 function App() {
