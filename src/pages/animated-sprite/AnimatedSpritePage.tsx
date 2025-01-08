@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import {
   AnimatedSprite,
   Container as PixiContainer,
@@ -77,8 +77,8 @@ const JetFighter: React.FC = () => {
       >
         {(textures) => (
           <pixiAnimatedSprite
-            animationSpeed={0.5}
-            isPlaying={true}
+            // animationSpeed={0.5}
+            // isPlaying={true}
             textures={textures}
             anchor={0.5}
           />
