@@ -46,7 +46,7 @@ function App() {
           {items.map((item) => (
             <Route
               key={item.id}
-              path={`/${item.path}`} // Use the path property
+              path={item.title} // Use the path property
               element={item.element}
             />
           ))}
