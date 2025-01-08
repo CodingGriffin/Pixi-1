@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/side-bar/SidebarComponent";
 import BasicResponsive from "./pages/responsive/ResponsivePage";
@@ -16,7 +16,8 @@ import { useEffect, useState } from "react";
 interface MenuItem {
   id: string;
   title: string;
-  element: any;
+  path: string; // Add a path property
+  element: JSX.Element; // Use JSX.Element for better typing
 }
 
 function App() {
@@ -25,15 +26,15 @@ function App() {
 
   useEffect(() => {
     setItems([
-      { id: "0", title: "Basic Responsive", element: <BasicResponsive /> },
-      { id: "1", title: "Basic Container", element: <BasicContainer /> },
-      { id: "2", title: "Blend Modes", element: <BlendModePage /> },
-      { id: "3", title: "Tiling Sprite", element: <TilingSpritePage /> },
-      { id: "4", title: "Animated Sprite", element: <AnimatedSpritePage /> },
-      { id: "5", title: "Text", element: <TextPage /> },
-      { id: "6", title: "Graphics", element: <GraphicsPage /> },
-      { id: "7", title: "Dragging", element: <DraggingPage /> },
-      { id: "8", title: "Slider", element: <SliderPage /> },
+      { id: "0", title: "Basic Responsive", path: "basic-responsive", element: <BasicResponsive /> },
+      { id: "1", title: "Basic Container", path: "basic-container", element: <BasicContainer /> },
+      { id: "2", title: "Blend Modes", path: "blend-modes", element: <BlendModePage /> },
+      { id: "3", title: "Tiling Sprite", path: "tiling-sprite", element: <TilingSpritePage /> },
+      { id: "4", title: "Animated Sprite", path: "animated-sprite", element: <AnimatedSpritePage /> },
+      { id: "5", title: "Text", path: "text", element: <TextPage /> },
+      { id: "6", title: "Graphics", path: "graphics", element: <GraphicsPage /> },
+      { id: "7", title: "Dragging", path: "dragging", element: <DraggingPage /> },
+      { id: "8", title: "Slider", path: "slider", element: <SliderPage /> },
     ]);
   }, []);
 
@@ -45,11 +46,11 @@ function App() {
           {items.map((item) => (
             <Route
               key={item.id}
-              path={item.title} // Ensure unique paths
+              path={`/${item.path}`} // Use the path property
               element={item.element}
             />
           ))}
-          <Route path="/" element={items[0].element} /> {/* Fallback route */}
+          <Route path="/" element={<Navigate to="/basic-responsive" replace />} /> {/* Redirect to a specific route */}
         </Routes>
       </Router>
     </div>
