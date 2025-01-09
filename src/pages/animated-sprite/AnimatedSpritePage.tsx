@@ -1,14 +1,16 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   AnimatedSprite,
   Container as PixiContainer,
   Texture,
   Assets,
+  Graphics,
+  Text,
 } from "pixi.js";
 import { Application, useTick, extend, useApplication } from "@pixi/react";
 import styles from "./AnimatedSpritePage.module.css";
 
-extend({ AnimatedSprite, Container: PixiContainer });
+extend({ AnimatedSprite, Container: PixiContainer, Graphics, Text });
 
 const getTextures = (
   textures: Record<string, Texture>,
@@ -56,34 +58,59 @@ const Textures: React.FC<TexturesProps> = ({
 
 const JetFighter: React.FC = () => {
   const [rotation, setRotation] = useState(0);
-  // useTick((delta) => {
-  //   if (delta) setRotation((prev) => prev + 0.01 * delta);
-  // });
-  const [lastTime, setLastTime] = useState(performance.now());
+  const [isPlaying, setIsPlaying] = useState(true);
+  const {app} = useApplication();
+  const spriteRef = useRef<AnimatedSprite>(null);
+
+  useEffect(() => {
+    if (spriteRef.current) {
+      spriteRef.current.animationSpeed = 0.5;
+      if (isPlaying) {
+        spriteRef.current.play();
+      } else {
+        spriteRef.current.stop();
+      }
+    }
+  }, [isPlaying]);
 
   useTick(() => {
-    const currentTime = performance.now();
-    const elapsed = (currentTime - lastTime) / 1000; // Convert ms to seconds
-    setRotation((prev) => prev + 0.01 * elapsed * 60); // Normalize to 60 FPS
-    setLastTime(currentTime);
+    setRotation((prev) => prev + 0.01);
   });
 
-  const {app} = useApplication();
   return (
-    <pixiContainer rotation={rotation} x={app.screen.width/2} y={app.screen.height/2}>
-      <Textures
-        spritesheet="https://pixijs.io/examples/examples/assets/spritesheet/fighter.json"
-        textureChain={true}
-      >
-        {(textures) => (
-          <pixiAnimatedSprite
-            // animationSpeed={0.5}
-            // isPlaying={true}
-            textures={textures}
-            anchor={0.5}
-          />
-        )}
-      </Textures>
+    <pixiContainer>
+      <pixiContainer x={50} y={50} interactive={true} cursor="pointer" onPointerDown={() => setIsPlaying(!isPlaying)}>
+        <pixiGraphics
+          draw={g => {
+            g.clear();
+            g.beginFill(0x0000ff);
+            g.drawRoundedRect(0, 0, 80, 30, 5);
+            g.endFill();
+          }}
+        />
+        <pixiText
+          text={isPlaying ? 'Stop' : 'Play'}
+          x={40}
+          y={15}
+          anchor={0.5}
+          style={{ fill: 'white', fontSize: 16 }}
+        />
+      </pixiContainer>
+      <pixiContainer x={app.screen.width/2} y={app.screen.height/2}>
+        <Textures
+          spritesheet="https://pixijs.com/assets/spritesheet/fighter.json"
+          textureChain={true}
+        >
+          {(textures) => (
+            <pixiAnimatedSprite
+              ref={spriteRef}
+              textures={textures}
+              anchor={0.5}
+              rotation={rotation}
+            />
+          )}
+        </Textures>
+      </pixiContainer>
     </pixiContainer>
   );
 };
