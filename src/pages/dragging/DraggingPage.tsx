@@ -4,88 +4,96 @@ import {
   extend,
   useSuspenseAssets,
 } from "@pixi/react";
-import { Container, Graphics, Sprite } from "pixi.js";
+import { Container, Graphics, Sprite, SCALE_MODES } from "pixi.js";
 import { useCallback, useRef, useState } from "react";
 import styles from "./DraggingPage.module.css";
 
 extend({ Container, Graphics, Sprite });
 
-let index = 1;
+interface Position {
+  x: number;
+  y: number;
+}
 
-const BunnySprite = ({...props}) => {
+interface BunnyProps {
+  x?: number;
+  y?: number;
+}
+
+const BunnySprite = ({ x = 0, y = 0 }: BunnyProps) => {
   const isDragging = useRef(false);
-  const offset = useRef({x:0, y:0});
-  const [position, setPosition] = useState({x:props.x||0, y:props.y||0});
+  const offset = useRef<Position>({ x: 0, y: 0 });
+  const [position, setPosition] = useState<Position>({ x, y });
   const [alpha, setAlpha] = useState(1);
-  const [zIndex, setZIndex] = useState(index);
   
-  const onStart = (e:any) => {
-    isDragging.current = true;
-    offset.current = {
-      x:e.data.global.x - position.x,
-      y:e.data.global.y - position.y
-    };
-
-    setAlpha(0.5);
-    setZIndex(index++);
-  }
-
-  const onEnd = () => {
-    isDragging.current = false;
-    setAlpha(1);
-  }
-
-  const onMove = (e:any) => {
-    if (isDragging.current) {
-      setPosition({
-        x:e.data.global.x - offset.current.x,
-        y:e.data.global.y - offset.current.y,
-      })
-    }
-  }
-
   const [bunnyTexture] = useSuspenseAssets([
     "https://pixijs.com/assets/bunny.png",
   ]);
-  // bunnyTexture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
+  bunnyTexture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
+  
+  const onStart = (e: any) => {
+    isDragging.current = true;
+    offset.current = {
+      x: e.data.global.x - position.x,
+      y: e.data.global.y - position.y
+    };
+    setAlpha(0.5);
+    
+    window.addEventListener('mousemove', onGlobalMove);
+    window.addEventListener('mouseup', onGlobalEnd);
+  };
+
+  const onGlobalEnd = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+      setAlpha(1);
+      window.removeEventListener('mousemove', onGlobalMove);
+      window.removeEventListener('mouseup', onGlobalEnd);
+    }
+  };
+
+  const onGlobalMove = (e: MouseEvent) => {
+    if (isDragging.current) {
+      const canvas = document.querySelector('canvas');
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        setPosition({
+          x: ((e.clientX - rect.left) * scaleX) - offset.current.x,
+          y: ((e.clientY - rect.top) * scaleY) - offset.current.y,
+        });
+      }
+    }
+  };
 
   return (
     <pixiSprite
       texture={bunnyTexture}
-      eventMode={"static"}
-      cursor={"pointer"}
+      eventMode="static"
+      cursor="pointer"
       anchor={0.5}
       scale={3}
       position={position}
-      zIndex={zIndex}
       interactive={true}
       onPointerDown={onStart}
-      onPointerUp={onEnd}
-      onPointerUpOutside={onEnd}
-      onPointerMove={onMove}
       alpha={alpha}
-      {...props}
     />
   );
 };
 
 function ChildComponent() {
   const { app } = useApplication();
-  const bunnies: Array<any> = [];
-  
-  for (let i = 0; i < 10; i++) {
-    bunnies.push(
-      <BunnySprite
-        key={`bunny-${i}`}
-        x={Math.floor(Math.random() * app.screen.width)}
-        y={Math.floor(Math.random() * app.screen.height)}
-      />
-    );
-  }
+  const bunnies = Array.from({ length: 10 }, (_, i) => (
+    <BunnySprite
+      key={`bunny-${i}`}
+      x={Math.floor(Math.random() * app.screen.width)}
+      y={Math.floor(Math.random() * app.screen.height)}
+    />
+  ));
 
-  return <pixiContainer>
-    {bunnies}
-  </pixiContainer>
+  return <pixiContainer>{bunnies}</pixiContainer>;
 }
 
 function PixiApplication({ ...props }) {
@@ -108,7 +116,7 @@ function DraggingPage() {
       </div>
       <div className={styles["main-stage"]}>
         <div className={styles["stage-container"]} ref={parentRef}>
-          <PixiApplication background={"#1099bb"} width={800} height={600} resizeTo={parentRef} />
+          <PixiApplication background="#1099bb" width={800} height={600} resizeTo={parentRef} />
         </div>
       </div>
     </div>
