@@ -9,6 +9,7 @@ import {
 } from "pixi.js";
 import { Application, useTick, extend } from "@pixi/react";
 import 'pixi.js/advanced-blend-modes';
+import styles from './BlendModePage.module.css';
 
 extend({ Container, Sprite, Text });
 
@@ -126,17 +127,36 @@ const BlendModesDemo = () => {
   );
 };
 
-const BlendModePage = () => {
+const PixiApplication = ({...props}) => {
   return (
     <Application
       antialias
       backgroundColor={0xffffff}
-      resizeTo={window}
       useBackBuffer
+      {...props}
     >
       <BlendModesDemo />
     </Application>
   );
 };
+
+function BlendModePage() {
+  const parentRef = useRef(null);
+  return (
+    <div className={styles["full-height"]}>
+      <div className={styles["main-title"]}>
+        <h1>2 - Blend Mode</h1>
+      </div>
+      <div className={styles["main-stage"]}>
+        <div className={styles["stage-container"]} ref={parentRef}>
+          <PixiApplication
+            resizeTo={parentRef}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 export default BlendModePage;

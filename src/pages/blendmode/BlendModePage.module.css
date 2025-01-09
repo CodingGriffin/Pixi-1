@@ -29,5 +29,8 @@
   height: auto;
   min-width: 0;
   min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* background: blue; */
 }
