@@ -58,20 +58,16 @@ const Textures: React.FC<TexturesProps> = ({
 
 const JetFighter: React.FC = () => {
   const [rotation, setRotation] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
   const {app} = useApplication();
   const spriteRef = useRef<AnimatedSprite>(null);
 
   useEffect(() => {
-    if (spriteRef.current) {
-      spriteRef.current.animationSpeed = 0.5;
-      if (isPlaying) {
-        spriteRef.current.play();
-      } else {
-        spriteRef.current.stop();
-      }
+    const sprite = spriteRef.current;
+    if (sprite) {
+      sprite.animationSpeed = 0.5;
+      sprite.play();
     }
-  }, [isPlaying]);
+  }, [spriteRef.current]);
 
   useTick(() => {
     setRotation((prev) => prev + 0.01);
@@ -79,23 +75,6 @@ const JetFighter: React.FC = () => {
 
   return (
     <pixiContainer>
-      <pixiContainer x={50} y={50} interactive={true} cursor="pointer" onPointerDown={() => setIsPlaying(!isPlaying)}>
-        <pixiGraphics
-          draw={g => {
-            g.clear();
-            g.beginFill(0x0000ff);
-            g.drawRoundedRect(0, 0, 80, 30, 5);
-            g.endFill();
-          }}
-        />
-        <pixiText
-          text={isPlaying ? 'Stop' : 'Play'}
-          x={40}
-          y={15}
-          anchor={0.5}
-          style={{ fill: 'white', fontSize: 16 }}
-        />
-      </pixiContainer>
       <pixiContainer x={app.screen.width/2} y={app.screen.height/2}>
         <Textures
           spritesheet="https://pixijs.com/assets/spritesheet/fighter.json"
